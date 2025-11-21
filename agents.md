@@ -191,6 +191,8 @@ Migration path:
 5. **Migration paths stay clean.**
    The project is designed so you can switch to PostgreSQL without rewriting models.
 
+6. **Continously Update README.md as changes are applied and functionality upgraded/improved/modified.
+
 ---
 
 # **Next Actions for Agents (Development Tasks)**
