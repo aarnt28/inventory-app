@@ -1,0 +1,16 @@
+services:
+  inventory:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inventory-app
+    environment:
+      - DB_PATH=sqlite:///./data/inventory.db
+      - DATA_DIR=/app/data
+      - UPLOAD_DIR=/app/data/uploads
+    ports:
+      - "8000:8000"
+    volumes:
+      - type: bind
+        source: ${DATA_DIR:-./data}
+        target: /app/data
