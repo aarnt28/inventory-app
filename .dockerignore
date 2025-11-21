@@ -1,0 +1,15 @@
+.git
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+inventory-app/
+inventory.db
+data/
+*.db
+*.sqlite
