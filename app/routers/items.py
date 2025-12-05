@@ -22,7 +22,6 @@ from ..utils.auth import require_api_key
 from ..utils.paths import resolve_upload_dir
 
 router = APIRouter(
-    prefix="/api/items",
     tags=["items"],
     dependencies=[Depends(require_api_key)],
 )
