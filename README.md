@@ -7,6 +7,7 @@ FastAPI + SQLModel backend for tracking inventory items and their transactions. 
 - Transaction logging that records adds/uses/adjustments with optional device, vendor/client, and shortcut metadata.
 - Static hosting of uploaded images under `/uploads` for easy previewing from API responses.
 - SQLAdmin dashboard at `/admin` for browsing and editing data during early development.
+- Lightweight frontend at `/` for creating items and logging transactions against the API (admin remains available at `/admin`).
 - Environment-driven data directories to keep SQLite files and uploads outside the container image.
 
 ## Project Structure
@@ -29,7 +30,7 @@ FastAPI + SQLModel backend for tracking inventory items and their transactions. 
    ```bash
    uvicorn app.main:app --reload
    ```
-3. Open the interactive docs at `http://localhost:8000/docs`.
+3. Open the interactive docs at `http://localhost:8000/docs` or the new frontend at `http://localhost:8000/` (admin is still at `/admin`).
 
 ### Docker
 1. Build and start the service:
@@ -70,3 +71,4 @@ The app auto-creates SQLite tables on startup and backfills missing `InventoryIt
 - Uploaded file previews are served from `/uploads/<filename>`.
 - Barcode uniqueness is enforced at both the application and database level.
 - The codebase targets SQLite for Phase 1 but is structured to swap to PostgreSQL later by changing `DB_PATH`.
+- The frontend is a static, vanilla HTML/CSS/JS shell mounted at `/` with assets served from `/assets`; it consumes the existing `/api/items` and `/api/transactions` endpoints without impacting SQLAdmin.
