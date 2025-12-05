@@ -11,8 +11,12 @@ from ..schemas.transaction import (
     TransactionRead,
     TransactionUpdate,
 )
+from ..utils.auth import require_api_key
 
-router = APIRouter(tags=["transactions"])
+router = APIRouter(
+    tags=["transactions"],
+    dependencies=[Depends(require_api_key)],
+)
 
 
 def _serialize_transaction(tx: Transaction) -> TransactionRead:

@@ -18,9 +18,14 @@ from sqlmodel import Session, select
 from ..database import engine, get_session
 from ..models.inventory_item import InventoryItem
 from ..schemas.item import ItemRead, ItemUpdate
+from ..utils.auth import require_api_key
 from ..utils.paths import resolve_upload_dir
 
-router = APIRouter(prefix="/api/items", tags=["items"])
+router = APIRouter(
+    prefix="/api/items",
+    tags=["items"],
+    dependencies=[Depends(require_api_key)],
+)
 
 UPLOAD_DIR = resolve_upload_dir()
 

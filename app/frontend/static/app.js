@@ -1,3 +1,6 @@
+const API_KEY =
+    document.querySelector('meta[name="inventory-api-key"]')?.content?.trim() || '';
+
 const els = {
     status: document.querySelector('[data-status]'),
     items: document.querySelector('[data-items]'),
@@ -43,8 +46,16 @@ const setStatus = (message, tone = 'muted') => {
     }
 };
 
+const withApiKey = (options = {}) => {
+    const headers = new Headers(options.headers || {});
+    if (API_KEY) {
+        headers.set('x-api-key', API_KEY);
+    }
+    return { ...options, headers };
+};
+
 const fetchJSON = async (url, options = {}) => {
-    const response = await fetch(url, options);
+    const response = await fetch(url, withApiKey(options));
     let data = null;
     try {
         data = await response.json();

@@ -8,7 +8,9 @@ FastAPI + SQLModel backend for tracking inventory items and their transactions. 
 - Static hosting of uploaded images under `/uploads` for easy previewing from API responses.
 - SQLAdmin dashboard at `/admin` for browsing and editing data during early development.
 - Lightweight frontend at `/` for creating items and logging transactions against the API (admin remains available at `/admin`).
+- Optional API key protection for `/api/*` routes (send `x-api-key`).
 - Environment-driven data directories to keep SQLite files and uploads outside the container image.
+- Companion iOS app scaffold (SwiftUI) under `xcode/InventoryApp` with barcode scanning and API-key aware calls.
 
 ## Project Structure
 - `app/main.py` – FastAPI app wiring, startup hooks, and router registration.
@@ -38,11 +40,13 @@ FastAPI + SQLModel backend for tracking inventory items and their transactions. 
    docker-compose up --build
    ```
 2. SQLite data and uploads are persisted to `./data` by default (override with `DATA_DIR`).
+3. The compose file sets `API_KEY=change-me`; update this value before exposing the container.
 
 ## Configuration
-- `DATA_DIR` – Base directory for SQLite and uploads (defaults to `./data`).
-- `UPLOAD_DIR` – Optional override for uploads directory (defaults to `DATA_DIR/uploads`).
-- `DB_PATH` – Full SQLAlchemy database URL; defaults to `sqlite:///<DATA_DIR>/inventory.db`.
+- `DATA_DIR` - Base directory for SQLite and uploads (defaults to `./data`).
+- `UPLOAD_DIR` - Optional override for uploads directory (defaults to `DATA_DIR/uploads`).
+- `DB_PATH` - Full SQLAlchemy database URL; defaults to `sqlite:///<DATA_DIR>/inventory.db`.
+- `API_KEY` - If set, all `/api/*` requests must include header `x-api-key: <value>`. Leave unset to keep local/dev open.
 
 Uploads are stored under `/uploads` inside the FastAPI app and mounted to the host via `DATA_DIR`. The server ensures these directories exist at startup.
 
@@ -72,3 +76,5 @@ The app auto-creates SQLite tables on startup and backfills missing `InventoryIt
 - Barcode uniqueness is enforced at both the application and database level.
 - The codebase targets SQLite for Phase 1 but is structured to swap to PostgreSQL later by changing `DB_PATH`.
 - The frontend is a static, vanilla HTML/CSS/JS shell mounted at `/` with assets served from `/assets`; it consumes the existing `/api/items` and `/api/transactions` endpoints without impacting SQLAdmin.
+- When `API_KEY` is set, the frontend automatically forwards it in `x-api-key` for same-origin use; avoid exposing secrets on shared deployments.
+- Open `xcode/InventoryApp/InventoryApp.xcodeproj` in Xcode 15+, set signing, and point the Settings tab to your backend URL and API key to use the iOS companion.

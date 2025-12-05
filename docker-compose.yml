@@ -8,6 +8,7 @@ services:
       - DB_PATH=sqlite:///./data/inventory.db
       - DATA_DIR=/app/data
       - UPLOAD_DIR=/app/data/uploads
+      - API_KEY=4tAHmp7PrDY789xRgA9WwZ9
     ports:
       - "8000:8000"
     volumes:

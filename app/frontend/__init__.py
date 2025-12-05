@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import APIRouter, FastAPI, Request
@@ -18,7 +19,14 @@ def serve_index(request: Request):
     """
     Serve the main frontend shell. Assets are mounted under /assets.
     """
-    return templates.TemplateResponse("index.html", {"request": request})
+    api_key = os.getenv("API_KEY", "")
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "api_key": api_key,
+        },
+    )
 
 
 def init_frontend(app: FastAPI) -> None:
