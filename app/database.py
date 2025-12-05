@@ -4,7 +4,7 @@ from pathlib import Path
 from sqlmodel import SQLModel, Session, create_engine
 
 from .utils.paths import resolve_data_dir
-from .utils.migrations import ensure_inventory_columns
+from .utils.migrations import ensure_inventory_columns, ensure_transaction_columns
 
 
 def _sqlite_url() -> str:
@@ -36,6 +36,7 @@ def init_db():
     SQLModel.metadata.create_all(engine)
     # For existing SQLite files, auto-add any new columns we expect
     ensure_inventory_columns(engine)
+    ensure_transaction_columns(engine)
 
 
 def get_session():

@@ -20,9 +20,6 @@ class InventoryItem(SQLModel, table=True):
     # Relationship to transactions (item.transactions)
     transactions: List["Transaction"] = Relationship(back_populates="item")
 
-    class Config:
-        arbitrary_types_allowed = True
-
     __table_args__ = (
         # Enforce uniqueness at the DB level for barcode
         UniqueConstraint("barcode", name="uq_inventory_item_barcode"),

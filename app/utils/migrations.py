@@ -3,8 +3,11 @@ from sqlalchemy.engine import Engine
 
 
 def _add_column(engine: Engine, table: str, column_sql: str) -> None:
+    """
+    Add a column to the given table, quoting the table name to tolerate reserved words.
+    """
     with engine.begin() as conn:
-        conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {column_sql}"))
+        conn.execute(text(f'ALTER TABLE "{table}" ADD COLUMN {column_sql}'))
 
 
 def ensure_inventory_columns(engine: Engine) -> None:
@@ -30,3 +33,28 @@ def ensure_inventory_columns(engine: Engine) -> None:
     missing = [name for name in desired if name not in existing]
     for name in missing:
         _add_column(engine, "inventoryitem", f"{name} {desired[name]}")
+
+
+def ensure_transaction_columns(engine: Engine) -> None:
+    """
+    SQLite auto-migrations for Transaction. Adds missing columns if older DB files are present.
+    """
+    inspector = inspect(engine)
+    try:
+        existing = {col["name"] for col in inspector.get_columns("transaction")}
+    except Exception:
+        # Table might not exist yet; create_all will handle it.
+        return
+
+    desired = {
+        "amount": "REAL",
+        "unit_cost": "REAL",
+        "device_id": "TEXT",
+        "vendor_client": "TEXT",
+        "notes": "TEXT",
+        "trans_source": "TEXT",
+    }
+
+    missing = [name for name in desired if name not in existing]
+    for name in missing:
+        _add_column(engine, "transaction", f"{name} {desired[name]}")
