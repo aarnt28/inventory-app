@@ -1,3 +1,4 @@
+import AVFoundation
 import SwiftUI
 
 struct NewItemView: View {
@@ -12,6 +13,7 @@ struct NewItemView: View {
     @State private var imageURL: String = ""
     @State private var autofilledFromExisting = false
     @State private var errorMessage: String = ""
+    @State private var showingScanner = false
 
     private var existingItem: InventoryItem? {
         viewModel.items.first(where: { $0.barcode == barcode })
@@ -21,9 +23,19 @@ struct NewItemView: View {
         NavigationStack {
             Form {
                 Section(header: Text("Barcode")) {
-                    TextField("Scan or type", text: $barcode)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
+                    HStack(spacing: 8) {
+                        TextField("Scan or type", text: $barcode)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                        Button {
+                            requestCameraIfNeeded()
+                        } label: {
+                            Image(systemName: "barcode.viewfinder")
+                                .imageScale(.large)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Scan barcode")
+                    }
                 }
 
                 Section(header: Text("Details")) {
@@ -72,6 +84,37 @@ struct NewItemView: View {
             .onChange(of: barcode) { newValue in
                 handleBarcodeChange(newValue)
             }
+            .sheet(isPresented: $showingScanner) {
+                NavigationStack {
+                    ZStack {
+                        BarcodeScannerView { code in
+                            barcode = code
+                            showingScanner = false
+                        }
+                        .ignoresSafeArea()
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [10]))
+                            .foregroundStyle(.white.opacity(0.8))
+                            .padding()
+                        VStack {
+                            Spacer()
+                            Text("Align the barcode within the frame")
+                                .padding(12)
+                                .frame(maxWidth: .infinity)
+                                .background(.ultraThinMaterial)
+                                .cornerRadius(12)
+                                .padding()
+                        }
+                    }
+                    .background(Color.black.opacity(0.95))
+                    .navigationTitle("Scan Barcode")
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close") { showingScanner = false }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -100,6 +143,25 @@ struct NewItemView: View {
             await MainActor.run {
                 errorMessage = viewModel.status
             }
+        }
+    }
+
+    private func requestCameraIfNeeded() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            showingScanner = true
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    showingScanner = granted
+                    if !granted {
+                        errorMessage = "Camera access is required to scan barcodes."
+                    }
+                }
+            }
+        default:
+            errorMessage = "Camera access is required to scan barcodes."
         }
     }
 
