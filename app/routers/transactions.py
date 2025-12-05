@@ -37,19 +37,40 @@ def _serialize_transaction(tx: Transaction) -> TransactionRead:
     )
 
 
+def _apply_quantity_change(item: InventoryItem, tx_type: str, amount: float) -> None:
+    """Mutate the item's quantity based on the transaction type."""
+    delta = int(amount)
+    if tx_type == "add":
+        item.quantity = (item.quantity or 0) + delta
+    elif tx_type == "use":
+        item.quantity = (item.quantity or 0) - delta
+    elif tx_type == "adjust":
+        item.quantity = delta
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Unsupported transaction type '{tx_type}'",
+        )
+
+
 @router.post("/", response_model=TransactionRead, status_code=status.HTTP_201_CREATED)
 def create_transaction(
     payload: TransactionCreate,
     session: Session = Depends(get_session),
 ):
-    item = session.exec(
-        select(InventoryItem).where(InventoryItem.barcode == payload.barcode)
-    ).first()
-    if not item:
+    barcode = payload.barcode.strip()
+    if not barcode:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Item with this barcode not found",
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Barcode is required",
         )
+
+    item = session.exec(select(InventoryItem).where(InventoryItem.barcode == barcode)).first()
+    if not item:
+        item = InventoryItem(name=barcode, barcode=barcode, quantity=0)
+        session.add(item)
+        session.commit()
+        session.refresh(item)
 
     tx = Transaction(
         item_id=item.id,
@@ -61,9 +82,17 @@ def create_transaction(
         notes=payload.notes,
         trans_source=payload.trans_source or "shortcut",
     )
+
+    _apply_quantity_change(item, tx.type, tx.amount)
+
     session.add(tx)
+    session.add(item)
     session.commit()
     session.refresh(tx)
+    session.refresh(item)
+
+    # Ensure the relationship is available for serialization without extra queries
+    tx.item = item
 
     return _serialize_transaction(tx)
 

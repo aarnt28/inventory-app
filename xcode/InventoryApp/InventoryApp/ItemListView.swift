@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ItemListView: View {
     @EnvironmentObject private var viewModel: AppViewModel
+    @State private var showingNewItem = false
 
     var body: some View {
         NavigationStack {
@@ -64,13 +65,23 @@ struct ItemListView: View {
             }
             .navigationTitle("Inventory")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         Task { await viewModel.refreshAll() }
                     } label: {
                         Image(systemName: "arrow.clockwise")
                     }
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingNewItem = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingNewItem) {
+                NewItemView()
             }
         }
     }

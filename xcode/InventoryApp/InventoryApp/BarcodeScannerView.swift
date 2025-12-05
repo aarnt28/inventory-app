@@ -39,6 +39,7 @@ struct BarcodeScannerView: UIViewRepresentable {
             else { return }
 
             session.beginConfiguration()
+            session.sessionPreset = .high
             if session.canAddInput(input) {
                 session.addInput(input)
             }
@@ -47,9 +48,11 @@ struct BarcodeScannerView: UIViewRepresentable {
             if session.canAddOutput(output) {
                 session.addOutput(output)
                 output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-                output.metadataObjectTypes = [
+                let preferredTypes: [AVMetadataObject.ObjectType] = [
                     .ean8, .ean13, .qr, .code128, .code39, .code93, .upce, .pdf417
                 ]
+                let supportedTypes = preferredTypes.filter { output.availableMetadataObjectTypes.contains($0) }
+                output.metadataObjectTypes = supportedTypes.isEmpty ? output.availableMetadataObjectTypes : supportedTypes
             }
             session.commitConfiguration()
         }
