@@ -60,7 +60,7 @@ Uploads are stored under `/uploads` inside the FastAPI app and mounted to the ho
 
 ### Transactions (`/api/transactions`)
 - `GET /api/transactions/` – List all transactions (includes the related item barcode).
-- `POST /api/transactions/` – Create a transaction using JSON payload: `barcode`, `amount`, `type`, and optional `unit_cost`, `device_id`, `vendor_client`, `notes`, `trans_source` (defaults to `shortcut`).
+- `POST /api/transactions/` – Create a transaction using JSON payload: `barcode`, `amount`, `type`, and optional `unit_cost`, `device_id`, `vendor_client`, `notes`, `trans_source` (defaults to `shortcut`). Unknown barcodes automatically create a new item with the barcode as its name. Item quantities are adjusted per transaction (`add` increases, `use` decreases, `adjust` sets).
 - `GET /api/transactions/{id}` – Retrieve a transaction by ID.
 - `PATCH /api/transactions/{id}` – Update transaction fields; supplying `barcode` re-associates the transaction to another item.
 - `DELETE /api/transactions/{id}` – Remove a transaction.
