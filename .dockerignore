@@ -13,3 +13,4 @@ inventory.db
 data/
 *.db
 *.sqlite
+data/inventory.db
