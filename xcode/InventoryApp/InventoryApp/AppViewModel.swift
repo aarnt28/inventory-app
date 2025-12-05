@@ -61,20 +61,34 @@ final class AppViewModel: ObservableObject {
             )
             let created = try await client.createTransaction(request)
             transactions.insert(created, at: 0)
-            status = "Logged \(type) for \(barcode)"
-            // Update matching item quantity if present
+            let message = "Logged \(type) for \(barcode)"
             if let idx = items.firstIndex(where: { $0.barcode == barcode }) {
-                var updated = items[idx]
-                updated.quantity = (updated.quantity ?? 0) + Int(amount)
-                items[idx] = updated
+                applyLocalQuantityChange(index: idx, type: type, amount: amount)
             } else {
-                // Pull fresh items to stay aligned
                 await loadItems()
             }
+            status = message
             return true
         } catch {
             status = "Failed to log: \(error.localizedDescription)"
             return false
         }
+    }
+
+    private func applyLocalQuantityChange(index: Int, type: String, amount: Double) {
+        guard items.indices.contains(index) else { return }
+        var updated = items[index]
+        let delta = Int(amount)
+        switch type {
+        case "add":
+            updated.quantity = (updated.quantity ?? 0) + delta
+        case "use":
+            updated.quantity = (updated.quantity ?? 0) - delta
+        case "adjust":
+            updated.quantity = delta
+        default:
+            break
+        }
+        items[index] = updated
     }
 }
