@@ -42,6 +42,52 @@ struct APIClient {
         return try decoder.decode([InventoryTransaction].self, from: data)
     }
 
+    func createItem(
+        name: String,
+        barcode: String,
+        description: String?,
+        quantity: Int?,
+        sku: String?,
+        imageURL: String?
+    ) async throws -> InventoryItem {
+        var fields: [String: String] = [
+            "name": name,
+            "barcode": barcode,
+        ]
+
+        if let description, !description.isEmpty {
+            fields["description"] = description
+        }
+        if let quantity {
+            fields["quantity"] = String(quantity)
+        }
+        if let sku, !sku.isEmpty {
+            fields["sku"] = sku
+        }
+        if let imageURL, !imageURL.isEmpty {
+            fields["image_url"] = imageURL
+        }
+
+        let boundary = UUID().uuidString
+        var body = Data()
+
+        for (name, value) in fields {
+            body.append("--\(boundary)\r\n")
+            body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
+            body.append("\(value)\r\n")
+        }
+
+        body.append("--\(boundary)--\r\n")
+
+        let data = try await request(
+            path: "/api/items/",
+            method: "POST",
+            body: body,
+            contentType: "multipart/form-data; boundary=\(boundary)"
+        )
+        return try decoder.decode(InventoryItem.self, from: data)
+    }
+
     func createTransaction(_ payload: NewTransaction) async throws -> InventoryTransaction {
         let body = try encoder.encode(payload)
         let data = try await request(
@@ -79,5 +125,13 @@ struct APIClient {
             throw APIClientError.badStatus(http.statusCode)
         }
         return data
+    }
+}
+
+private extension Data {
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            append(data)
+        }
     }
 }

@@ -46,6 +46,34 @@ final class AppViewModel: ObservableObject {
         }
     }
 
+    func createItem(
+        barcode: String,
+        name: String,
+        description: String?,
+        quantity: Int?,
+        sku: String?,
+        imageURL: String?
+    ) async -> Bool {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            let created = try await client.createItem(
+                name: name,
+                barcode: barcode,
+                description: description,
+                quantity: quantity,
+                sku: sku,
+                imageURL: imageURL
+            )
+            items.append(created)
+            status = "Saved item \(created.name)"
+            return true
+        } catch {
+            status = "Failed to save item: \(error.localizedDescription)"
+            return false
+        }
+    }
+
     func logTransaction(barcode: String, amount: Double, type: String, unitCost: Double?, deviceId: String?, notes: String?) async -> Bool {
         isLoading = true
         defer { isLoading = false }

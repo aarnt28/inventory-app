@@ -14,11 +14,12 @@
 		F7A51BA12A8DE1A400A07B10 /* InventoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B952A8DE1A400A07B10 /* InventoryItem.swift */; };
 		F7A51BA22A8DE1A400A07B10 /* InventoryTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B962A8DE1A400A07B10 /* InventoryTransaction.swift */; };
 		F7A51BA32A8DE1A400A07B10 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B972A8DE1A400A07B10 /* APIClient.swift */; };
-		F7A51BA42A8DE1A400A07B10 /* BarcodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B982A8DE1A400A07B10 /* BarcodeScannerView.swift */; };
-		F7A51BA52A8DE1A400A07B10 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B992A8DE1A400A07B10 /* ItemListView.swift */; };
-		F7A51BA62A8DE1A400A07B10 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B9A2A8DE1A400A07B10 /* ScanView.swift */; };
-		F7A51BAA2A8DE1A400A07B10 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51BA92A8DE1A400A07B10 /* ConfigView.swift */; };
-		F7A51BB12A8DE1A500A07B10 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51BB02A8DE1A500A07B10 /* AppViewModel.swift */; };
+                F7A51BA42A8DE1A400A07B10 /* BarcodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B982A8DE1A400A07B10 /* BarcodeScannerView.swift */; };
+                F7A51BA52A8DE1A400A07B10 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B992A8DE1A400A07B10 /* ItemListView.swift */; };
+                F7A51BA62A8DE1A400A07B10 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51B9A2A8DE1A400A07B10 /* ScanView.swift */; };
+                F7A51BAA2A8DE1A400A07B10 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51BA92A8DE1A400A07B10 /* ConfigView.swift */; };
+                F7A51BB12A8DE1A500A07B10 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51BB02A8DE1A500A07B10 /* AppViewModel.swift */; };
+                F7A51BB52A8DE1A500A07B10 /* NewItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A51BB42A8DE1A500A07B10 /* NewItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +34,10 @@
 		F7A51B972A8DE1A400A07B10 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		F7A51B982A8DE1A400A07B10 /* BarcodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerView.swift; sourceTree = "<group>"; };
 		F7A51B992A8DE1A400A07B10 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
-		F7A51B9A2A8DE1A400A07B10 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
-		F7A51BA92A8DE1A400A07B10 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
-		F7A51BB02A8DE1A500A07B10 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+                F7A51B9A2A8DE1A400A07B10 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
+                F7A51BA92A8DE1A400A07B10 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
+                F7A51BB02A8DE1A500A07B10 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+                F7A51BB42A8DE1A500A07B10 /* NewItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,14 +73,15 @@
 				F7A51B8F2A8DE1A300A07B10 /* InventoryAppApp.swift */,
 				F7A51B902A8DE1A300A07B10 /* ContentView.swift */,
 				F7A51B932A8DE1A300A07B10 /* Resources */,
-				F7A51B972A8DE1A400A07B10 /* APIClient.swift */,
-				F7A51BB02A8DE1A500A07B10 /* AppViewModel.swift */,
-				F7A51B982A8DE1A400A07B10 /* BarcodeScannerView.swift */,
-				F7A51B992A8DE1A400A07B10 /* ItemListView.swift */,
-				F7A51B9A2A8DE1A400A07B10 /* ScanView.swift */,
-				F7A51BA92A8DE1A400A07B10 /* ConfigView.swift */,
-				F7A51B942A8DE1A400A07B10 /* Info.plist */,
-				F7A51B952A8DE1A400A07B10 /* InventoryItem.swift */,
+                                F7A51B972A8DE1A400A07B10 /* APIClient.swift */,
+                                F7A51BB02A8DE1A500A07B10 /* AppViewModel.swift */,
+                                F7A51B982A8DE1A400A07B10 /* BarcodeScannerView.swift */,
+                                F7A51B992A8DE1A400A07B10 /* ItemListView.swift */,
+                                F7A51BB42A8DE1A500A07B10 /* NewItemView.swift */,
+                                F7A51B9A2A8DE1A400A07B10 /* ScanView.swift */,
+                                F7A51BA92A8DE1A400A07B10 /* ConfigView.swift */,
+                                F7A51B942A8DE1A400A07B10 /* Info.plist */,
+                                F7A51B952A8DE1A400A07B10 /* InventoryItem.swift */,
 				F7A51B962A8DE1A400A07B10 /* InventoryTransaction.swift */,
 			);
 			path = InventoryApp;
@@ -164,13 +167,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7A51BB12A8DE1A500A07B10 /* AppViewModel.swift in Sources */,
-				F7A51BA12A8DE1A400A07B10 /* InventoryItem.swift in Sources */,
-				F7A51BA22A8DE1A400A07B10 /* InventoryTransaction.swift in Sources */,
-				F7A51BA52A8DE1A400A07B10 /* ItemListView.swift in Sources */,
-				F7A51BA62A8DE1A400A07B10 /* ScanView.swift in Sources */,
-				F7A51BA32A8DE1A400A07B10 /* APIClient.swift in Sources */,
-				F7A51BA42A8DE1A400A07B10 /* BarcodeScannerView.swift in Sources */,
-				F7A51BAA2A8DE1A400A07B10 /* ConfigView.swift in Sources */,
+                                F7A51BA12A8DE1A400A07B10 /* InventoryItem.swift in Sources */,
+                                F7A51BA22A8DE1A400A07B10 /* InventoryTransaction.swift in Sources */,
+                                F7A51BA52A8DE1A400A07B10 /* ItemListView.swift in Sources */,
+                                F7A51BB52A8DE1A500A07B10 /* NewItemView.swift in Sources */,
+                                F7A51BA62A8DE1A400A07B10 /* ScanView.swift in Sources */,
+                                F7A51BA32A8DE1A400A07B10 /* APIClient.swift in Sources */,
+                                F7A51BA42A8DE1A400A07B10 /* BarcodeScannerView.swift in Sources */,
+                                F7A51BAA2A8DE1A400A07B10 /* ConfigView.swift in Sources */,
 				F7A51B9C2A8DE1A400A07B10 /* ContentView.swift in Sources */,
 				F7A51B9B2A8DE1A400A07B10 /* InventoryAppApp.swift in Sources */,
 			);

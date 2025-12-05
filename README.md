@@ -11,6 +11,7 @@ FastAPI + SQLModel backend for tracking inventory items and their transactions. 
 - Optional API key protection for `/api/*` routes (send `x-api-key`).
 - Environment-driven data directories to keep SQLite files and uploads outside the container image.
 - Companion iOS app scaffold (SwiftUI) under `xcode/InventoryApp` with barcode scanning and API-key aware calls.
+- iOS companion adds on-device item creation with barcode-based name autofill and PDF417-friendly scanning.
 
 ## Project Structure
 - `app/main.py` – FastAPI app wiring, startup hooks, and router registration.
