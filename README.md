@@ -7,6 +7,7 @@ FastAPI + SQLModel backend for tracking inventory items and their transactions. 
 - Transaction logging that records adds/uses/adjustments with optional device, vendor/client, and shortcut metadata.
 - Static hosting of uploaded images under `/uploads` for easy previewing from API responses.
 - SQLAdmin dashboard at `/admin` for browsing and editing data during early development.
+- Bulk CSV import for inventory items from the SQLAdmin inventory list.
 - Lightweight frontend at `/` for creating items and logging transactions against the API (admin remains available at `/admin`).
 - Optional API key protection for `/api/*` routes (send `x-api-key`).
 - Environment-driven data directories to keep SQLite files and uploads outside the container image.
@@ -68,6 +69,8 @@ Uploads are stored under `/uploads` inside the FastAPI app and mounted to the ho
 
 ### Admin UI
 SQLAdmin is available at `/admin` for quick CRUD over inventory items and transactions. It uses the same database connection defined in `app/database.py`.
+
+The inventory list now includes a **Bulk import CSV** button that opens `/admin/inventory-item/import`. Upload a UTF-8 CSV containing at least `barcode` and `name` headers (order and casing are flexible); optional columns such as `description`, `quantity`, `sku`, and `image_url` are applied when present. Rows with missing required fields are skipped, while invalid quantities default to 0.
 
 ## Data & Migrations
 The app auto-creates SQLite tables on startup and backfills missing `InventoryItem` columns for existing databases (e.g., `barcode`, `description`, `quantity`, `sku`, `image_url`, `image_path`). This keeps older `inventory.db` files compatible without manual migrations during early development.
